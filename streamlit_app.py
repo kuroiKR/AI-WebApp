@@ -6,7 +6,7 @@ from PIL import Image
 
 st.set_page_config(
     page_title="Model Intelligent System",
-    page_icon="ꕥ",
+    page_icon="🍀",
 )
 
 # Try TensorFlow Keras first, fallback to keras package
