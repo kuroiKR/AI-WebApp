@@ -5,9 +5,8 @@ import numpy as np
 from PIL import Image
 
 st.set_page_config(
-    page_title="Intelligent Systems — AI Web App",
-    page_icon="🏍️",
-    layout="wide",
+    page_title="Model Intelligent System",
+    page_icon="🌙",
 )
 
 # Try TensorFlow Keras first, fallback to keras package
