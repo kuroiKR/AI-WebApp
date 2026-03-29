@@ -4,6 +4,12 @@ import joblib
 import numpy as np
 from PIL import Image
 
+st.set_page_config(
+    page_title="Intelligent Systems — AI Web App",
+    page_icon="🏍️",
+    layout="wide",
+)
+
 # Try TensorFlow Keras first, fallback to keras package
 try:
     from tensorflow.keras.models import load_model as keras_load_model
