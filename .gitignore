@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.coverage
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Large files and archives
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Model files (optional - uncomment if you want to exclude)
+# *.keras
+# *.pkl
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.bak
+*.log
+
+# Virtual environment
+pip-log.txt
+pip-delete-this-directory.txt
