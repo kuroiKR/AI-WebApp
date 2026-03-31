@@ -171,8 +171,7 @@ def run_sleep_tab():
                 st.error(f'เกิดข้อผิดพลาด: {e} (โปรดตรวจสอบรูปแบบ Blood Pressure เช่น 120/80)')
     
     with details_tab:
-        st.markdown('### รายละเอียดของโมเดล Sleep Quality Prediction')
-    st.markdown("""
+        st.markdown("""
 ## การเตรียมข้อมูล (Data Preparation)
 
 โปรเจกต์นี้เริ่มต้นด้วยการรวบรวมข้อมูลสุขภาพการนอนผ่านการสืบค้นโดย ChatGPT เพื่อระบุแหล่งข้อมูลที่มีความน่าเชื่อถือสูงจากสถาบันระดับโลก ได้แก่ Kaggle (Sleep Health and Lifestyle Dataset), American Academy of Sleep Medicine (AASM), National Sleep Foundation (NSF) และข้อมูลสำรวจจาก CDC ลักษณะของข้อมูล:
