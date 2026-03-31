@@ -172,7 +172,7 @@ def run_sleep_tab():
     
     with details_tab:
         st.markdown("""
-# การเตรียมข้อมูล (Data Preparation)
+## การเตรียมข้อมูล (Data Preparation)
 
 โปรเจกต์นี้เริ่มต้นด้วยการรวบรวมข้อมูลสุขภาพการนอนผ่านการสืบค้นโดย ChatGPT เพื่อระบุแหล่งข้อมูลที่มีความน่าเชื่อถือสูงจากสถาบันระดับโลก ได้แก่ Kaggle (Sleep Health and Lifestyle Dataset), American Academy of Sleep Medicine (AASM), National Sleep Foundation (NSF) และข้อมูลสำรวจจาก CDC ลักษณะของข้อมูล:
 
