@@ -172,8 +172,119 @@ def run_sleep_tab():
     
     with details_tab:
         st.markdown('### รายละเอียดของโมเดล Sleep Quality Prediction')
-        st.info('เนื้อหาอธิบายโมเดลจะปรากฏที่นี่')
+    st.markdown("""
+## การเตรียมข้อมูล (Data Preparation)
 
+โปรเจกต์นี้เริ่มต้นด้วยการรวบรวมข้อมูลสุขภาพการนอนผ่านการสืบค้นโดย ChatGPT เพื่อระบุแหล่งข้อมูลที่มีความน่าเชื่อถือสูงจากสถาบันระดับโลก ได้แก่ Kaggle (Sleep Health and Lifestyle Dataset), American Academy of Sleep Medicine (AASM), National Sleep Foundation (NSF) และข้อมูลสำรวจจาก CDC ลักษณะของข้อมูล:
+
+Dataset ประกอบด้วยตัวแปรสำคัญ 11 ตัวแปร ที่ส่งผลต่อประสิทธิภาพการนอน ได้แก่:
+
+1. ข้อมูลพื้นฐาน: เพศ (Gender), อายุ (Age), อาชีพ (Occupation)
+
+2. พฤติกรรมสุขภาพ: ระยะเวลาการนอน (Sleep Duration), คุณภาพการนอน (Quality of Sleep), ระดับกิจกรรมทางกาย (Physical Activity Level), ระดับความเครียด (Stress Level)
+
+3. ตัวชี้วัดทางกายภาพ: ประเภทดัชนีมวลกาย (BMI Category), ความดันโลหิต (Blood Pressure), อัตราการเต้นของหัวใจ (Heart Rate), จำนวนก้าวต่อวัน (Daily Steps)
+
+ขั้นตอนการประมวลผล:
+
+- Data Cleaning: จัดการข้อมูลที่สูญหาย (Missing Values) และตรวจสอบความสมเหตุสมผลของค่าความดันโลหิต
+
+- Feature Engineering: แปลงข้อมูลเชิงคุณภาพ (เช่น BMI Category) ให้เป็นตัวเลข และทำ Feature Scaling เพื่อให้โมเดลประมวลผลข้อมูลที่มีหน่วยต่างกันได้อย่างแม่นยำ
+
+- Data Splitting: แบ่งข้อมูลเป็น Training Set 80% และ Test Set 20% เพื่อใช้ประเมินประสิทธิภาพที่แท้จริง
+
+## ทฤษฎีของอัลกอริทึม (Algorithm Theory)
+
+เพื่อให้ได้ผลลัพธ์ที่แม่นยำที่สุด โปรเจกต์นี้เลือกใช้เทคนิค Ensemble Voting Regressor ซึ่งเป็นการรวมพลังของ 4 อัลกอริทึมหลัก:
+
+1. Random Forest
+
+ใช้หลักการ Bagging สร้างต้นไม้ตัดสินใจ (Decision Trees) จำนวนมากแบบสุ่ม แล้วนำค่าเฉลี่ยมาเป็นคำตอบ ช่วยลดปัญหาการจดจำข้อมูลแม่นเกินไป (Overfitting) ได้ดีเยี่ยม
+
+2. Gradient Boosting
+
+ใช้หลักการ Boosting ที่สร้างต้นไม้ทีละต้น โดยต้นที่มาทีหลังจะพยายามเรียนรู้และ "แก้ไขความผิดพลาด" (Residual Errors) จากต้นก่อนหน้า ทำให้โมเดลมีความละเอียดสูง
+
+3. Support Vector Regression (SVR)
+
+ใช้ทฤษฎี Hyperplane และ Kernel Trick เพื่อหาเส้นแนวโน้มในพื้นที่หลายมิติ เหมาะสำหรับข้อมูลที่มีความสัมพันธ์ที่ซับซ้อนและไม่ใช่เส้นตรง
+
+4. XGBoost
+
+เป็นเวอร์ชันปรับปรุงของ Gradient Boosting ที่เน้นความเร็วและความแม่นยำสูง มีระบบ Regularization ช่วยป้องกันโมเดลไม่ให้ซับซ้อนเกินไปจนสูญเสียความแม่นยำกับข้อมูลใหม่
+
+5. Ensemble Voting
+
+ทำหน้าที่เป็น "คณะกรรมการ" รวบรวมคำทำนายจากทุกโมเดลข้างต้นมาหาค่าเฉลี่ยถ่วงน้ำหนัก เพื่อลดความลำเอียง (Bias) และเพิ่มความเสถียรของผลลัพธ์
+
+## ขั้นตอนการพัฒนาโมเดล (Development Process)
+
+การพัฒนาแบ่งออกเป็น 7 ระยะ (Phases) เพื่อความเป็นระบบ:
+
+1. Data Collection & Preparation: รวบรวมและคัดเลือก Dataset ที่เกี่ยวข้องกับสุขภาพการนอน
+
+2. Exploratory Data Analysis (EDA): วิเคราะห์ความสัมพันธ์ของตัวแปร เช่น ความสัมพันธ์ระหว่าง "ระดับความเครียด" กับ "คุณภาพการนอน" ผ่าน Heatmap
+
+3. Feature Engineering & Preprocessing: ปรับแต่งข้อมูลดิบให้พร้อมสำหรับอัลกอริทึม (Scaling, Encoding)
+
+4. Model Training & Selection: ฝึกสอนโมเดลทั้ง 4 ประเภท และเปรียบเทียบประสิทธิภาพเบื้องต้น
+
+5. Hyperparameter Tuning & Optimization: ปรับแต่งค่าพารามิเตอร์ภายในของแต่ละโมเดล (เช่น จำนวนต้นไม้ใน Forest) เพื่อให้ได้จุดที่แม่นยำที่สุด
+
+6. Model Evaluation & Validation: วัดผลด้วยตัวชี้วัด MAE (Mean Absolute Error) และ $R^2$ Score เพื่อดูว่าโมเดลอธิบายความผันแปรของข้อมูลได้ดีเพียงใด
+
+7. Deployment & Testing: บันทึกโมเดลในรูปแบบไฟล์ .joblib เพื่อนำไปประกอบใช้งานใน Interface ต่อไป
+
+## แหล่งอ้างอิงข้อมูลที่นำมาใช้ (References)
+
+- Datasets: * Kaggle: Sleep Health and Lifestyle Dataset
+
+- National Health and Nutrition Examination Survey (NHANES) - CDC
+
+- Literature & Theory: * American Academy of Sleep Medicine (AASM) Clinical Practice Guidelines
+
+- Scikit-learn Documentation (Random Forest, SVR, Ensemble)
+
+- XGBoost Documentation: Scalable Tree Boosting System
+
+## วิธีการใช้งานโมเดล (How to Use)
+
+เมื่อเปิดใช้งานโมเดล ให้ไปที่ส่วนการกรอกข้อมูลสุขภาพเพื่อรับการประเมิน ดังนี้:
+
+1. Age -> อายุของผู้ใช้งาน (ปี)
+
+2. Gender -> เพศสภาพของผู้ใช้งาน
+
+3. Occupation -> อาชีพของผู้ใช้งาน
+
+4. Sleep Duration -> จำนวนชั่วโมงที่นอนจริง (เช่น 7.5 ชั่วโมง)
+
+5. Physical Activity Level -> ปริมาณการเคลื่อนไหวร่างกายในแต่ละวัน
+
+6. Stress Level -> ระดับความเครียดประเมินตนเอง 1–10
+
+7. BMI Category -> สถานะน้ำหนัก (Normal, Overweight, Obese)
+
+8. Heart Rate -> อัตราการเต้นของหัวใจขณะพัก (BPM)
+
+9. Daily Steps -> จำนวนก้าวที่เดินเฉลี่ยต่อวัน
+
+10. Sleep Disorder -> ภาวะผิดปกติของการนอนหลับ คือ สภาวะที่ส่งผลกระทบต่อคุณภาพ ระยะเวลา และช่วงเวลา ของการนอนหลับ
+
+ขั้นตอนการใช้งาน:
+
+1. Input Data: กรอกข้อมูลสุขภาพตามความเป็นจริงในช่องที่กำหนด
+
+2. Processing: ระบบจะนำข้อมูลไปปรับสเกลให้เข้ากับมาตรฐานที่โมเดลเรียนรู้มา
+
+3. Prediction: กดปุ่ม "ประเมินสุขภาพการนอน" โมเดล Ensemble จะคำนวณผลลัพธ์
+
+4. Output: ระบบจะแสดง คะแนนคุณภาพการนอน พร้อมคำแนะนำเบื้องต้นตามผลวิเคราะห์
+
+หมายเหตุ: โมเดลนี้เป็นการคาดการณ์ทางสถิติเพื่อการดูแลสุขภาพเบื้องต้น ไม่สามารถใช้แทนการวินิจฉัยทางการแพทย์จากผู้เชี่ยวชาญหรือผลตรวจ Sleep Test ได้
+
+**ผู้พัฒนา Project นี้: นางสาวณัฐณิชา ถนอมลาภ และ นางสาวณิรชา ถนอมลาภ
+""")
 
 def run_flower_tab():
     st.subheader('Flower Classification')
